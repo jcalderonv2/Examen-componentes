@@ -36,13 +36,13 @@ public class RigController {
 	}
 
 	@GetMapping(path = { "/{id}" })
-	public ResponseEntity<Rig> findById(@PathVariable String id) {
+	public ResponseEntity<Rig> findById(@PathVariable Integer id) {
 		return repository.findById(id).map(record -> ResponseEntity.ok().body(record))
 				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Rig> update(@PathVariable("id") String id, @RequestBody Rig rig) {
+	public ResponseEntity<Rig> update(@PathVariable("id") Integer id, @RequestBody Rig rig) {
 		return repository.findById(id).map(record -> {
 			record.setIDENTIFICATION(rig.getIDENTIFICATION());
 			record.setNAME(rig.getNAME());
@@ -55,7 +55,7 @@ public class RigController {
 	}
 
 	@DeleteMapping(path = { "/{id}" })
-	public ResponseEntity<?> delete(@PathVariable("id") String id) {
+	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
 		return repository.findById(id).map(record -> {
 			repository.deleteById(id);
 			return ResponseEntity.ok().build();

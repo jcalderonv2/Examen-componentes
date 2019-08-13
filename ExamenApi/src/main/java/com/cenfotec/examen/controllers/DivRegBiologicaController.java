@@ -13,22 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cenfotec.examen.model.DivPolitica;
-import com.cenfotec.examen.repository.DivPoliticaRepository;
+import com.cenfotec.examen.model.DivRegBiologica;
+import com.cenfotec.examen.repository.DivRegBiologicaRepository;
 
 @RestController
-@RequestMapping({ "/divpoliticas" })
-public class DivPoliticaController {
+@RequestMapping({ "/divbiologicas" })
+public class DivRegBiologicaController {
+	
+	private DivRegBiologicaRepository repository;
 
-	private DivPoliticaRepository repository;
-
-	DivPoliticaController(DivPoliticaRepository divPoliticaRepository) {
-		this.repository = divPoliticaRepository;
+	DivRegBiologicaController(DivRegBiologicaRepository divRegBiologicaRepository) {
+		this.repository = divRegBiologicaRepository;
 	}
-
+	
+	
 	@PostMapping
-	public DivPolitica create(@RequestBody DivPolitica divPol) {
-		return repository.save(divPol);
+	public DivRegBiologica create(@RequestBody DivRegBiologica divBio) {
+		return repository.save(divBio);
 	}
 
 	@GetMapping
@@ -37,29 +38,30 @@ public class DivPoliticaController {
 	}
 
 	@GetMapping(path = "/{id}")
-	public List<DivPolitica> divPoliticacountrylist(@PathVariable Integer id) {
+	public List<DivRegBiologica> divBiologicaCountryList(@PathVariable Integer id) {
 		
-		List<DivPolitica> divPoliticaBD = null;
-		List<DivPolitica> listDivPolitica = new ArrayList<DivPolitica>();
+		List<DivRegBiologica> divBiologicaBD = null;
+		List<DivRegBiologica> listDivBiologica = new ArrayList<DivRegBiologica>();
 
-		divPoliticaBD = repository.findAll();
+		divBiologicaBD = repository.findAll();
 
-		for (DivPolitica bd : divPoliticaBD) {
-			if (bd.getCOUNTRY() == id) {
-				listDivPolitica.add(bd);
+		for (DivRegBiologica bd : divBiologicaBD) {
+			if (bd.getRIG() == id) {
+				listDivBiologica.add(bd);
 			}
 		}
-		return listDivPolitica;
+		return listDivBiologica;
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<DivPolitica> update(@PathVariable("id") Integer id, @RequestBody DivPolitica divPol) {
+	public ResponseEntity<DivRegBiologica> update(@PathVariable("id") Integer id, @RequestBody DivRegBiologica divBio) {
 		return repository.findById(id).map(record -> {
-			record.setCODE(divPol.getCODE());
-			record.setNAME(divPol.getNAME());
-			record.setCOUNTRY(divPol.getCOUNTRY());
+			record.setCODE(divBio.getCODE());
+			record.setNAME(divBio.getNAME());
+			record.setDIVPOLITICA(divBio.getDIVPOLITICA());
+			record.setRIG(divBio.getRIG());
 
-			DivPolitica updated = repository.save(record);
+			DivRegBiologica updated = repository.save(record);
 			return ResponseEntity.ok().body(updated);
 		}).orElse(ResponseEntity.notFound().build());
 	}
