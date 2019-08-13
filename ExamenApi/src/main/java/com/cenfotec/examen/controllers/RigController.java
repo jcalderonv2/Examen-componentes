@@ -16,7 +16,7 @@ import com.cenfotec.examen.model.Rig;
 import com.cenfotec.examen.repository.RigRepository;
 
 @RestController
-@RequestMapping({ "/rig" })
+@RequestMapping({ "/rigs" })
 public class RigController {
 
 	private RigRepository repository;
