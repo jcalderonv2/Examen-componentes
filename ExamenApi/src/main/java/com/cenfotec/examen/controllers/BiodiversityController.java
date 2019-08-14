@@ -35,7 +35,7 @@ public class BiodiversityController {
 	public List findAll() {
 		return repository.findAll();
 	}
-	
+
 	@GetMapping(path = "/{id}")
 	public List<Biodiversity> biodiversitycountrylist(@PathVariable Integer id) {
 		
@@ -46,6 +46,24 @@ public class BiodiversityController {
 
 		for (Biodiversity bd : biodiversityBD) {
 			if (bd.getCOUNTRY() == id) {
+				listBiodiversity.add(bd);
+			}
+		}
+		return listBiodiversity;
+	}
+	
+	@GetMapping(path = "/{id}/{type}")
+	public List<Biodiversity> animalcountrylist(@PathVariable Integer id, @PathVariable Integer type) {
+		
+		List<Biodiversity> biodiversityBD = null;
+		List<Biodiversity> listBiodiversity = new ArrayList<Biodiversity>();
+
+		biodiversityBD = repository.findAll();
+
+		for (Biodiversity bd : biodiversityBD) {
+			
+			
+			if (bd.getCOUNTRY() == id && bd.getTYPE() == type) {
 				listBiodiversity.add(bd);
 			}
 		}

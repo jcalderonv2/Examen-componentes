@@ -18,7 +18,7 @@ public class Biodiversity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer CODE;
-	private String TYPE;
+	private Integer TYPE;
 	private String POPULARNAME;
 	private String SCIENTIFICNAME;
 	private String INDANGER;
