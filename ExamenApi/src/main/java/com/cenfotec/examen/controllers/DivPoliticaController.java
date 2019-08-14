@@ -38,7 +38,7 @@ public class DivPoliticaController {
 
 	@GetMapping(path = "/{id}")
 	public List<DivPolitica> divPoliticacountrylist(@PathVariable Integer id) {
-		
+
 		List<DivPolitica> divPoliticaBD = null;
 		List<DivPolitica> listDivPolitica = new ArrayList<DivPolitica>();
 
