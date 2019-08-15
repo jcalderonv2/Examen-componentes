@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +31,7 @@ public class DivPoliticaController {
 	}
 
 	@GetMapping
-	public List findAll() {
+	public List<DivPolitica> findAll() {
 		return repository.findAll();
 	}
 
@@ -52,16 +51,20 @@ public class DivPoliticaController {
 		return listDivPolitica;
 	}
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<DivPolitica> update(@PathVariable("id") Integer id, @RequestBody DivPolitica divPol) {
-		return repository.findById(id).map(record -> {
-			record.setCODE(divPol.getCODE());
-			record.setNAME(divPol.getNAME());
-			record.setCOUNTRY(divPol.getCOUNTRY());
+	@GetMapping(path = "/name/{name}")
+	public List<DivPolitica> findByNameLike(@PathVariable String name) {
 
-			DivPolitica updated = repository.save(record);
-			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
+		List<DivPolitica> politicaBD = null;
+		List<DivPolitica> finalList = new ArrayList<DivPolitica>();
+
+		politicaBD = repository.findAll();
+
+		for (DivPolitica bd : politicaBD) {
+			if (bd.getNAME().contains(name)) {
+				finalList.add(bd);
+			}
+		}
+		return finalList;
 	}
 
 	@DeleteMapping(path = { "/{id}" })

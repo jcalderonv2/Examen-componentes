@@ -22,6 +22,7 @@ public class DivPolitica {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer CODE;
 	private Integer COUNTRY;
+	private Integer DIVREGBIO;
 	private String NAME;
 
 }

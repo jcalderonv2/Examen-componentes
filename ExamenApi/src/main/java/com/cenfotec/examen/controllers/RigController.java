@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +30,7 @@ public class RigController {
 	}
 
 	@GetMapping
-	public List findAll() {
+	public List<Rig> findAll() {
 		return repository.findAll();
 	}
 
@@ -39,19 +38,6 @@ public class RigController {
 	public ResponseEntity<Rig> findById(@PathVariable Integer id) {
 		return repository.findById(id).map(record -> ResponseEntity.ok().body(record))
 				.orElse(ResponseEntity.notFound().build());
-	}
-
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Rig> update(@PathVariable("id") Integer id, @RequestBody Rig rig) {
-		return repository.findById(id).map(record -> {
-			record.setIDENTIFICATION(rig.getIDENTIFICATION());
-			record.setNAME(rig.getNAME());
-			record.setCONTINENT(rig.getCONTINENT());
-			record.setLAND(rig.getLAND());
-			record.setSEA(rig.getSEA());
-			Rig updated = repository.save(record);
-			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
 	}
 
 	@DeleteMapping(path = { "/{id}" })

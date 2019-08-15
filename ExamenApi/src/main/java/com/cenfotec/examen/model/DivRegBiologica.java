@@ -22,7 +22,6 @@ public class DivRegBiologica {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer CODE;
 	private String NAME;
-	private Integer DIVPOLITICA;
 	private Integer RIG;
 
 

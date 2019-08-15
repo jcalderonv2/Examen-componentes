@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,7 @@ import com.cenfotec.examen.repository.BiodiversityRepository;
 @RestController
 @RequestMapping({ "/bios" })
 public class BiodiversityController {
-	
+
 	private BiodiversityRepository repository;
 
 	BiodiversityController(BiodiversityRepository biodiversityRepository) {
@@ -32,13 +31,13 @@ public class BiodiversityController {
 	}
 
 	@GetMapping
-	public List findAll() {
+	public List<Biodiversity> findAll() {
 		return repository.findAll();
 	}
 
 	@GetMapping(path = "/{id}")
 	public List<Biodiversity> biodiversitycountrylist(@PathVariable Integer id) {
-		
+
 		List<Biodiversity> biodiversityBD = null;
 		List<Biodiversity> listBiodiversity = new ArrayList<Biodiversity>();
 
@@ -51,18 +50,17 @@ public class BiodiversityController {
 		}
 		return listBiodiversity;
 	}
-	
+
 	@GetMapping(path = "/{id}/{type}")
 	public List<Biodiversity> animalcountrylist(@PathVariable Integer id, @PathVariable Integer type) {
-		
+
 		List<Biodiversity> biodiversityBD = null;
 		List<Biodiversity> listBiodiversity = new ArrayList<Biodiversity>();
 
 		biodiversityBD = repository.findAll();
 
 		for (Biodiversity bd : biodiversityBD) {
-			
-			
+
 			if (bd.getCOUNTRY() == id && bd.getTYPE() == type) {
 				listBiodiversity.add(bd);
 			}
@@ -70,20 +68,20 @@ public class BiodiversityController {
 		return listBiodiversity;
 	}
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Biodiversity> update(@PathVariable("id") Integer id, @RequestBody Biodiversity bio) {
-		return repository.findById(id).map(record -> {
-			record.setCODE(bio.getCODE());
-			record.setTYPE(bio.getTYPE());
-			record.setPOPULARNAME(bio.getPOPULARNAME());
-			record.setSCIENTIFICNAME(bio.getSCIENTIFICNAME());
-			record.setINDANGER(bio.getINDANGER());
-			record.setPOPULATION(bio.getPOPULATION());
-			record.setCOUNTRY(bio.getCOUNTRY());
+	@GetMapping(path = "/name/{type}/{name}")
+	public List<Biodiversity> findAnimalsByNameLike(@PathVariable Integer type, @PathVariable String name) {
 
-			Biodiversity updated = repository.save(record);
-			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
+		List<Biodiversity> bioBD = null;
+		List<Biodiversity> finalList = new ArrayList<Biodiversity>();
+
+		bioBD = repository.findAll();
+
+		for (Biodiversity bd : bioBD) {
+			if (bd.getTYPE() == type && bd.getPOPULARNAME().contains(name)) {
+				finalList.add(bd);
+			}
+		}
+		return finalList;
 	}
 
 	@DeleteMapping(path = { "/{id}" })
